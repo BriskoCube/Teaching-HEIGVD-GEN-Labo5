@@ -126,5 +126,18 @@ namespace {
                              "Amount owed is 3\n"
                              "You earned 1 frequent renter points");
     }
+
+    TEST(StatementTest, TWO_SPECIAL_RENTAL) {
+        Customer customer("Customer");
+        customer.addRental(Rental(Movie("Juju au zoo", 2), 4));
+        customer.addRental(Rental(Movie("Juju en vacance", 1), 4));
+        string statement = customer.statement();
+
+        EXPECT_EQ(statement, "Rental Record for Customer\n"
+                             "\tJuju au zoo\t3\n"
+                             "\tJuju en vacance\t12\n"
+                             "Amount owed is 15\n"
+                             "You earned 3 frequent renter points");
+    }
 }
 
