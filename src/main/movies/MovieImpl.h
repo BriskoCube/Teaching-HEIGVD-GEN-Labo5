@@ -19,23 +19,12 @@ public:
 
     std::string getTitle() const;
 
+    virtual int getPrice(int duration) const = 0;
+
 private:
     std::string _title;
     int _priceCode;
 };
-
-inline MovieImpl::
-MovieImpl(const std::string &title, int priceCode)
-        : _title(title), _priceCode(priceCode) {}
-
-inline int MovieImpl::
-getPriceCode() const { return _priceCode; }
-
-inline void MovieImpl::
-setPriceCode(int arg) { _priceCode = arg; }
-
-inline std::string MovieImpl::
-getTitle() const { return _title; }
 
 
 #endif //GEN_LABO5_MOVIEIMPL_H
