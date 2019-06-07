@@ -13,6 +13,6 @@ add_subdirectory("${CMAKE_BINARY_DIR}/googletest-src" "{CMAKE_BINARY_DIR}/google
 #add_executable(GEN_LABO5 src/main/main.cpp "src/main/Customer.cpp" "src/main/Movie.cpp" "src/main/Rental.h")
 add_executable(GEN_LABO5_TEST src/main/main.cpp "src/main/Customer.cpp" "src/main/Movie.cpp" "src/main/Rental.h")
 
-add_executable(TESTS src/test/TestTests.cpp "src/main/Customer.cpp" "src/main/Movie.cpp" "src/main/Rental.h")
+add_executable(TESTS src/test/CustomerTests.cpp "src/main/Customer.cpp" "src/main/Movie.cpp" "src/main/Rental.h")
 
 target_link_libraries(TESTS gtest gmock gmock_main)

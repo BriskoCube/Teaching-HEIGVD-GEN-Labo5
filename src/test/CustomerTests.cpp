@@ -10,10 +10,8 @@ namespace {
         string statement = customer.statement();
 
         EXPECT_EQ(statement, "Rental Record for Olivier\n"
-        "Amount owed is 12\n"
-        "You earned 0 frequent renter points\n");
-
-        cout << statement;
+                "Amount owed is 0\n"
+                "You earned 0 frequent renter points");
     }
 }
 
