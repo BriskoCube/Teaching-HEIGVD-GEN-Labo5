@@ -4,7 +4,7 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../main/Movie.h"
+#include "../main/movies/Movie.h"
 
 class MovieMock : public Movie{
 

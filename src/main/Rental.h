@@ -3,7 +3,7 @@
 #define RENTAL_H
 
 #include <memory>
-#include "Movie.h"
+#include "movies/Movie.h"
 
 class Rental {
 public:
