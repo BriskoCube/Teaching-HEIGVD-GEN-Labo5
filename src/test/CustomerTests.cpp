@@ -1,7 +1,11 @@
+#include <gmock/gmock-spec-builders.h>
 #include "../main/Customer.h"
 #include "gtest/gtest.h"
+#include "MovieMock.h"
+#include "RentalMock.h"
 
 using namespace std;
+using namespace testing;
 
 
 namespace {
@@ -14,13 +18,27 @@ namespace {
                 "You earned 0 frequent renter points");
     }
 
+    shared_ptr<Rental> createMockRental(string movieTitle, int movieType, int rentDuration){
+        MovieMock* movie = new MovieMock();
+        RentalMock* rental = new RentalMock();
+
+        EXPECT_CALL(*movie, getPriceCode()).WillRepeatedly(Return(movieType));
+        EXPECT_CALL(*movie, getTitle()).WillRepeatedly(Return(movieTitle));
+
+        EXPECT_CALL(*rental, getDaysRented()).WillRepeatedly(Return(rentDuration));
+        EXPECT_CALL(*rental, getMovie()).WillRepeatedly(Return(movie));
+
+        return shared_ptr<Rental>(rental);
+    }
+
+
     TEST(StatementTest, ONE_SIMPLE_RENTAL) {
         Customer customer("Nat");
 
-        Movie movie("Le jour ou Nathan a tout foire.");
-        Rental rental(movie, 10);
+        shared_ptr<Rental> rental = createMockRental("Le jour ou Nathan a tout foire.", Movie::REGULAR, 10);
 
-        customer.addRental(rental);
+        customer.addRental(shared_ptr<Rental>(rental));
+
         string statement = customer.statement();
 
         EXPECT_EQ(statement, "Rental Record for Nat\n"
@@ -32,8 +50,7 @@ namespace {
     TEST(StatementTest, ONE_REGULAR_RENTAL) {
         Customer customer("Nat");
 
-        Movie movie("Un beau matin", Movie::REGULAR);
-        Rental rental(movie, 1);
+        shared_ptr<Rental> rental = createMockRental("Un beau matin", Movie::REGULAR, 1);
 
         customer.addRental(rental);
 
@@ -48,8 +65,7 @@ namespace {
     TEST(StatementTest, ONE_REGULAR_RENTAL_MORE_THAN_THREE_DAYS) {
         Customer customer("Nat");
 
-        Movie movie("Nathanael le dernier samourai", Movie::REGULAR);
-        Rental rental(movie, 3);
+        shared_ptr<Rental> rental = createMockRental("Nathanael le dernier samourai", Movie::REGULAR, 3);
 
         customer.addRental(rental);
 
@@ -64,8 +80,7 @@ namespace {
     TEST(StatementTest, ONE_NEW_RELEASE_RENTAL) {
         Customer customer("Nat");
 
-        Movie movie("End Game", Movie::NEW_RELEASE);
-        Rental rental(movie, 1);
+        shared_ptr<Rental> rental = createMockRental("End Game", Movie::NEW_RELEASE, 1);
 
         customer.addRental(rental);
 
@@ -80,8 +95,7 @@ namespace {
     TEST(StatementTest, ONE_NEW_RELEASE_RENTAL_MORE_THAN_ONE_DAY) {
         Customer customer("Nat");
 
-        Movie movie("End Game", Movie::NEW_RELEASE);
-        Rental rental(movie, 2);
+        shared_ptr<Rental> rental = createMockRental("End Game", Movie::NEW_RELEASE, 2);
 
         customer.addRental(rental);
 
@@ -97,8 +111,7 @@ namespace {
     TEST(StatementTest, ONE_CHILDRENS_RENTAL) {
         Customer customer("Nat");
 
-        Movie movie("Cars", Movie::CHILDRENS);
-        Rental rental(movie, 3);
+        shared_ptr<Rental> rental = createMockRental("Cars", Movie::CHILDRENS, 3);
 
         customer.addRental(rental);
 
@@ -114,8 +127,7 @@ namespace {
     TEST(StatementTest, ONE_CHILDRENS_RENTAL_MORE_THAN_THREE_DAYS) {
         Customer customer("Robert");
 
-        Movie movie("Nathan et la girafe", Movie::CHILDRENS);
-        Rental rental(movie, 4);
+        shared_ptr<Rental> rental = createMockRental("Nathan et la girafe", Movie::CHILDRENS, 4);
 
         customer.addRental(rental);
 
@@ -129,8 +141,13 @@ namespace {
 
     TEST(StatementTest, TWO_SPECIAL_RENTAL) {
         Customer customer("Customer");
-        customer.addRental(Rental(Movie("Juju au zoo", 2), 4));
-        customer.addRental(Rental(Movie("Juju en vacance", 1), 4));
+
+        shared_ptr<Rental> rental = createMockRental("Juju au zoo", Movie::CHILDRENS, 4);
+        shared_ptr<Rental> rental2 = createMockRental("Juju en vacance", Movie::NEW_RELEASE, 4);
+
+        customer.addRental(rental);
+        customer.addRental(rental2);
+
         string statement = customer.statement();
 
         EXPECT_EQ(statement, "Rental Record for Customer\n"
