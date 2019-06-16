@@ -4,11 +4,12 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../main/movies/Movie.h"
+#include "../main/movies/AbstractMovie.h"
 
-class MovieMock : public Movie{
+class MovieMock : public AbstractMovie{
 
 public:
-    MOCK_CONST_METHOD0(getPriceCode, int());
     MOCK_CONST_METHOD0(getTitle, std::string());
+    MOCK_CONST_METHOD1(getPrice, double(int));
+    MOCK_CONST_METHOD1(getPoints, int(int));
 };

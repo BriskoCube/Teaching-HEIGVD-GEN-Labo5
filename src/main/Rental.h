@@ -3,12 +3,12 @@
 #define RENTAL_H
 
 #include <memory>
-#include "movies/Movie.h"
+#include "movies/AbstractMovie.h"
 
 class Rental {
 public:
     virtual int getDaysRented() const = 0;
-    virtual Movie* getMovie() const = 0;
+    virtual AbstractMovie* getMovie() const = 0;
 
     virtual ~Rental(){};
 };

@@ -1,6 +1,11 @@
+#include <string>
 #include "Movie.h"
 
-const int Movie::CHILDRENS;
-const int Movie::REGULAR;
-const int Movie::NEW_RELEASE;
- 
+using namespace std;
+
+Movie::Movie(const string &title)
+        : _title(title) {}
+
+string Movie::getTitle() const {
+    return _title;
+}

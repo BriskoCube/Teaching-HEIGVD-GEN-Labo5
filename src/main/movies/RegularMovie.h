@@ -7,12 +7,12 @@
 
 #include "Movie.h"
 
-class ChildrenMovie : public Movie{
-    double getPrice(int duration) const{
-        double amount = 1.5;
+class RegularMovie : public Movie{
+    override double getPrice(int duration) const{
+        double amount = 2;
 
-        if (duration > 3)
-            amount += (duration - 3) * 1.5;
+        if (duration > 2)
+            thisAmount += (duration - 2) * 1.5;
 
         return amount;
     }

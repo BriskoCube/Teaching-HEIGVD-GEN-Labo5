@@ -7,18 +7,13 @@
 
 #include "Movie.h"
 
-class ChildrenMovie : public Movie{
+class NewReleaseMovie : public Movie{
     double getPrice(int duration) const{
-        double amount = 1.5;
-
-        if (duration > 3)
-            amount += (duration - 3) * 1.5;
-
-        return amount;
+        return duration * 3;
     }
 
     int getPoints(int duration) const{
-        return 1;
+        return duration > 1 ? 2 : 1;
     }
 };
 

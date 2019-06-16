@@ -18,12 +18,13 @@ namespace {
                 "You earned 0 frequent renter points");
     }
 
-    shared_ptr<Rental> createMockRental(string movieTitle, int movieType, int rentDuration){
+    shared_ptr<Rental> createMockRental(string movieTitle, int rentDuration, double price, int points){
         MovieMock* movie = new MovieMock();
         RentalMock* rental = new RentalMock();
 
-        EXPECT_CALL(*movie, getPriceCode()).WillRepeatedly(Return(movieType));
         EXPECT_CALL(*movie, getTitle()).WillRepeatedly(Return(movieTitle));
+        EXPECT_CALL(*movie, getPoints(rentDuration)).WillRepeatedly(Return(points));
+        EXPECT_CALL(*movie, getPrice(rentDuration)).WillRepeatedly(Return(price));
 
         EXPECT_CALL(*rental, getDaysRented()).WillRepeatedly(Return(rentDuration));
         EXPECT_CALL(*rental, getMovie()).WillRepeatedly(Return(movie));
@@ -35,7 +36,7 @@ namespace {
     TEST(StatementTest, ONE_SIMPLE_RENTAL) {
         Customer customer("Nat");
 
-        shared_ptr<Rental> rental = createMockRental("Le jour ou Nathan a tout foire.", Movie::REGULAR, 10);
+        shared_ptr<Rental> rental = createMockRental("Le jour ou Nathan a tout foire.", 10, 14, 1);
 
         customer.addRental(shared_ptr<Rental>(rental));
 
@@ -50,7 +51,7 @@ namespace {
     TEST(StatementTest, ONE_REGULAR_RENTAL) {
         Customer customer("Nat");
 
-        shared_ptr<Rental> rental = createMockRental("Un beau matin", Movie::REGULAR, 1);
+        shared_ptr<Rental> rental = createMockRental("Un beau matin", 1, 2, 1);
 
         customer.addRental(rental);
 
@@ -65,7 +66,7 @@ namespace {
     TEST(StatementTest, ONE_REGULAR_RENTAL_MORE_THAN_THREE_DAYS) {
         Customer customer("Nat");
 
-        shared_ptr<Rental> rental = createMockRental("Nathanael le dernier samourai", Movie::REGULAR, 3);
+        shared_ptr<Rental> rental = createMockRental("Nathanael le dernier samourai", 3, 3.5, 1);
 
         customer.addRental(rental);
 
@@ -80,7 +81,7 @@ namespace {
     TEST(StatementTest, ONE_NEW_RELEASE_RENTAL) {
         Customer customer("Nat");
 
-        shared_ptr<Rental> rental = createMockRental("End Game", Movie::NEW_RELEASE, 1);
+        shared_ptr<Rental> rental = createMockRental("End Game", 1, 3, 1);
 
         customer.addRental(rental);
 
@@ -95,7 +96,7 @@ namespace {
     TEST(StatementTest, ONE_NEW_RELEASE_RENTAL_MORE_THAN_ONE_DAY) {
         Customer customer("Nat");
 
-        shared_ptr<Rental> rental = createMockRental("End Game", Movie::NEW_RELEASE, 2);
+        shared_ptr<Rental> rental = createMockRental("End Game", 2, 6, 2);
 
         customer.addRental(rental);
 
@@ -111,7 +112,7 @@ namespace {
     TEST(StatementTest, ONE_CHILDRENS_RENTAL) {
         Customer customer("Nat");
 
-        shared_ptr<Rental> rental = createMockRental("Cars", Movie::CHILDRENS, 3);
+        shared_ptr<Rental> rental = createMockRental("Cars", 3, 1.5, 1);
 
         customer.addRental(rental);
 
@@ -127,7 +128,7 @@ namespace {
     TEST(StatementTest, ONE_CHILDRENS_RENTAL_MORE_THAN_THREE_DAYS) {
         Customer customer("Robert");
 
-        shared_ptr<Rental> rental = createMockRental("Nathan et la girafe", Movie::CHILDRENS, 4);
+        shared_ptr<Rental> rental = createMockRental("Nathan et la girafe", 4, 3, 1);
 
         customer.addRental(rental);
 
@@ -142,8 +143,8 @@ namespace {
     TEST(StatementTest, TWO_SPECIAL_RENTAL) {
         Customer customer("Customer");
 
-        shared_ptr<Rental> rental = createMockRental("Juju au zoo", Movie::CHILDRENS, 4);
-        shared_ptr<Rental> rental2 = createMockRental("Juju en vacance", Movie::NEW_RELEASE, 4);
+        shared_ptr<Rental> rental = createMockRental("Juju au zoo", 4, 3, 1);
+        shared_ptr<Rental> rental2 = createMockRental("Juju en vacance", 4, 12, 2);
 
         customer.addRental(rental);
         customer.addRental(rental2);

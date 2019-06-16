@@ -1,21 +1,24 @@
-// Movie.h
-#ifndef MOVIE_H
-#define MOVIE_H
+//
+// Created by julien on 07.06.19.
+//
+
+#ifndef GEN_LABO5_MOVIEIMPL_H
+#define GEN_LABO5_MOVIEIMPL_H
 
 #include <string>
+#include "AbstractMovie.h"
 
-class Movie {
+class Movie : public AbstractMovie {
 public:
-    static const int CHILDRENS = 2;
-    static const int REGULAR = 0;
-    static const int NEW_RELEASE = 1;
 
-    virtual int getPriceCode() const = 0;
+    Movie(const std::string &title);
 
-    virtual std::string getTitle() const = 0;
+    std::string getTitle() const;
 
-    virtual ~Movie() {}
-
+private:
+    std::string _title;
+    int _priceCode;
 };
 
-#endif // MOVIE_H
+
+#endif //GEN_LABO5_MOVIEIMPL_H
