@@ -53,8 +53,13 @@ string Customer::movieDetail(AbstractRental *rental, double &totalAmount,
  * Format a movie, {title} will be replaced by the film title and {price} by the price
  */
 string Customer::formatMovie(const string &format, const string& title, double price) const{
+    // Convert double to string
+    stringstream priceStream;
+    priceStream << price;
+
+
     string formatted = std::regex_replace(format, std::regex("\\{title}"), title);
-    formatted = std::regex_replace(formatted, std::regex("\\{price}"), to_string(price));
+    formatted = std::regex_replace(formatted, std::regex("\\{price}"), priceStream.str());
     return formatted;
 }
 
