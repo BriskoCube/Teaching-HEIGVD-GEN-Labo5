@@ -8,6 +8,10 @@
 #include "Movie.h"
 
 class ChildrenMovie : public Movie{
+
+public:
+    ChildrenMovie(const std::string &title): Movie(title){ }
+
     double getPrice(int duration) const{
         double amount = 1.5;
 
@@ -19,6 +23,11 @@ class ChildrenMovie : public Movie{
 
     int getPoints(int duration) const{
         return 1;
+    }
+
+    static std::shared_ptr<AbstractMovie> newMovie(const std::string &title){
+        AbstractMovie* movie = new ChildrenMovie(title);
+        return std::shared_ptr<AbstractMovie>(movie);
     }
 };
 

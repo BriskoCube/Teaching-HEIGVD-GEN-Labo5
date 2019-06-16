@@ -9,20 +9,26 @@
 
 class RentalImpl : Rental {
 public:
-    RentalImpl(std::unique_ptr<AbstractMovie> movie, int daysRented);
+
+    RentalImpl(std::shared_ptr<AbstractMovie> movie, int daysRented);
 
     int getDaysRented() const;
 
     AbstractMovie* getMovie() const;
 
+    static std::shared_ptr<Rental> newRental(std::shared_ptr<AbstractMovie> movie, int daysRented){
+        Rental* rental = new RentalImpl(movie, daysRented);
+        return std::shared_ptr<Rental>(rental);
+    }
+
 private:
-    std::unique_ptr<AbstractMovie> _movie;
+    std::shared_ptr<AbstractMovie> _movie;
     int _daysRented;
 };
 
 inline RentalImpl::
-RentalImpl(std::unique_ptr<AbstractMovie> movie, int daysRented)
-        : _movie(move(movie)), _daysRented(daysRented) {}
+RentalImpl(std::shared_ptr<AbstractMovie> movie, int daysRented)
+        : _movie(movie), _daysRented(daysRented) {}
 
 inline int RentalImpl::
 getDaysRented() const { return _daysRented; }

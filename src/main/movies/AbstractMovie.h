@@ -13,7 +13,6 @@ public:
     virtual int getPoints(int duration) const = 0;
 
     virtual ~AbstractMovie() {}
-
 };
 
 #endif // MOVIE_H
