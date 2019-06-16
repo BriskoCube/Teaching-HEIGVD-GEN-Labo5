@@ -157,5 +157,56 @@ namespace {
                              "Amount owed is 15\n"
                              "You earned 3 frequent renter points");
     }
+
+    TEST(MovieDetailTest, BASIC) {
+        Customer customer("Customer");
+
+        shared_ptr<AbstractRental> rental = createMockRental("Juju au zoo", 4, 3, 1);
+
+        double totalAmount = 0;
+        int frequentRenterPoints = 0;
+
+        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints);
+
+        string statement = customer.statement();
+
+        EXPECT_EQ(detail, "\tJuju au zoo\t3\n");
+        EXPECT_EQ(totalAmount, 3);
+        EXPECT_EQ(frequentRenterPoints, 1);
+    }
+
+    TEST(MovieDetailTest, START_VALUE) {
+        Customer customer("Customer");
+
+        shared_ptr<AbstractRental> rental = createMockRental("Le jour ou Nathan a tout foire.", 10, 14, 1);
+
+        double totalAmount = 30.8;
+        int frequentRenterPoints = 12;
+
+        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints);
+
+        string statement = customer.statement();
+
+        EXPECT_EQ(detail, "\tLe jour ou Nathan a tout foire.\t14\n");
+        EXPECT_EQ(totalAmount, 44.8);
+        EXPECT_EQ(frequentRenterPoints, 13);
+    }
+
+    TEST(MovieDetailTest, DOUBLE_POINTS) {
+        Customer customer("Customer");
+
+        shared_ptr<AbstractRental> rental = createMockRental("Le jour ou Nathan a tout foire.", 10, 14, 2);
+
+        double totalAmount = 30.8;
+        int frequentRenterPoints = 12;
+
+        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints);
+
+        string statement = customer.statement();
+
+        EXPECT_EQ(detail, "\tLe jour ou Nathan a tout foire.\t14\n");
+        EXPECT_EQ(totalAmount, 44.8);
+        EXPECT_EQ(frequentRenterPoints, 14);
+    }
 }
 

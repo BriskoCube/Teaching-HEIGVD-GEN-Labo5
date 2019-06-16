@@ -16,24 +16,14 @@ public:
 
     AbstractMovie* getMovie() const;
 
-    static std::shared_ptr<AbstractRental> newRental(std::shared_ptr<AbstractMovie> movie, int daysRented){
-        AbstractRental* rental = new Rental(movie, daysRented);
-        return std::shared_ptr<AbstractRental>(rental);
-    }
+    static std::shared_ptr<AbstractRental> newRental(std::shared_ptr<AbstractMovie> movie, int daysRented);
+
 
 private:
     std::shared_ptr<AbstractMovie> _movie;
     int _daysRented;
 };
 
-inline Rental::
-Rental(std::shared_ptr<AbstractMovie> movie, int daysRented)
-        : _movie(movie), _daysRented(daysRented) {}
 
-inline int Rental::
-getDaysRented() const { return _daysRented; }
-
-inline AbstractMovie* Rental::
-getMovie() const { return _movie.get(); }
 
 #endif //GEN_LABO5_RENTAL_H

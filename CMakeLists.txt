@@ -19,7 +19,7 @@ add_executable(GEN_LABO5
         src/main/movies/RegularMovie.h
         src/main/AbstractRental.h
         src/main/movies/Movie.h
-        src/main/Rental.h
+        src/main/Rental.cpp
         src/main/movies/ChildrenMovie.h
         src/main/movies/Movie.cpp
 )
@@ -33,7 +33,7 @@ add_executable(TESTS
         src/main/movies/RegularMovie.h
         src/main/AbstractRental.h
         src/main/movies/Movie.h
-        src/main/Rental.h
+        src/main/Rental.cpp
         src/main/movies/ChildrenMovie.h
         src/main/movies/Movie.cpp
 )
