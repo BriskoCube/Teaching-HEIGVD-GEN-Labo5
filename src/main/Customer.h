@@ -3,20 +3,20 @@
 #define CUSTOMER_H
 #include <string>
 #include <vector>
-#include "Rental.h"
+#include "AbstractRental.h"
 
 class Customer {
 public:
     Customer();
     explicit Customer( const std::string& name );
 
-    void addRental( std::shared_ptr<Rental> arg );
+    void addRental( std::shared_ptr<AbstractRental> arg );
     std::string getName() const;
     std::string statement();
 
 private:
     std::string _name;
-    std::vector<std::shared_ptr<Rental>> _rentals;
+    std::vector<std::shared_ptr<AbstractRental>> _rentals;
 };
 
 inline Customer::
@@ -27,7 +27,7 @@ Customer( const std::string& name )
         : _name( name ) {}
 
 inline void Customer::
-addRental( std::shared_ptr<Rental> arg) { _rentals.push_back( move(arg) ); }
+addRental( std::shared_ptr<AbstractRental> arg) { _rentals.push_back( move(arg) ); }
 
 inline std::string Customer::
 getName() const { return _name; }

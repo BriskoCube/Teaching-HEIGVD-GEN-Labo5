@@ -17,20 +17,20 @@ string Customer::statement() {
 
     ostringstream result;
 
-    result << "Rental Record for " << getName() << "\n";
+    result << "AbstractRental Record for " << getName() << "\n";
     for (; iter != iter_end; ++iter) {
 
         double thisAmount = 0;
-        Rental *each = (*iter).get();
+        AbstractRental *rental = (*iter).get();
 
         // determine amounts for each line
-        thisAmount += each->getMovie()->getPrice(each->getDaysRented());
+        thisAmount += rental->getMovie()->getPrice(rental->getDaysRented());
 
         // add frequent renter points
-        frequentRenterPoints += each->getMovie()->getPoints(each->getDaysRented());
+        frequentRenterPoints += rental->getMovie()->getPoints(rental->getDaysRented());
 
         // show figures for this rental
-        result << "\t" << each->getMovie()->getTitle() << "\t" << thisAmount << "\n";
+        result << "\t" << rental->getMovie()->getTitle() << "\t" << thisAmount << "\n";
 
         totalAmount += thisAmount;
     }

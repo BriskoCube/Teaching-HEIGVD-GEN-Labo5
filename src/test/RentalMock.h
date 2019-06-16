@@ -4,9 +4,9 @@
 
 #include "gtest/gtest.h"
 #include "gmock/gmock.h"
-#include "../main/Rental.h"
+#include "../main/AbstractRental.h"
 
-class RentalMock : public Rental{
+class RentalMock : public AbstractRental{
 
 public:
     MOCK_CONST_METHOD0(getDaysRented, int());
