@@ -19,17 +19,4 @@ private:
     std::vector<std::shared_ptr<AbstractRental>> _rentals;
 };
 
-inline Customer::
-Customer() {}
-
-inline Customer::
-Customer( const std::string& name )
-        : _name( name ) {}
-
-inline void Customer::
-addRental( std::shared_ptr<AbstractRental> arg) { _rentals.push_back( move(arg) ); }
-
-inline std::string Customer::
-getName() const { return _name; }
-
 #endif // CUSTOMER_H

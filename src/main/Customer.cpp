@@ -41,3 +41,16 @@ string Customer::statement() {
 
     return result.str();
 }
+
+
+Customer::Customer() {}
+
+Customer::Customer(const std::string &name) : _name(name) {}
+
+void Customer::addRental(std::shared_ptr<AbstractRental> arg) {
+    _rentals.push_back(move(arg));
+}
+
+std::string Customer::getName() const {
+    return _name;
+}
