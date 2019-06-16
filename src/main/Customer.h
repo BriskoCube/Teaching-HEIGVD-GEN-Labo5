@@ -14,8 +14,8 @@ public:
     std::string getName() const;
     std::string statement();
 
-    std::string movieDetail(AbstractRental *rental, double &totalAmount, int &frequentRenterPoints) const;
-
+    std::string movieDetail(AbstractRental *rental, double &totalAmount, int &frequentRenterPoints, const std::string &format) const ;
+    std::string formatMovie(const std::string &format, const std::string& title, double price) const;
 private:
     std::string _name;
     std::vector<std::shared_ptr<AbstractRental>> _rentals;

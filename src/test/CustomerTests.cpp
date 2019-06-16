@@ -9,6 +9,8 @@ using namespace testing;
 
 
 namespace {
+    const string OUT_FORMAT = "\t{title}\t{price}\n";
+
     TEST(StatementTest, NO_RENTAL) {
         Customer customer("Olivier");
         string statement = customer.statement();
@@ -166,7 +168,7 @@ namespace {
         double totalAmount = 0;
         int frequentRenterPoints = 0;
 
-        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints);
+        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints, OUT_FORMAT);
 
         string statement = customer.statement();
 
@@ -183,7 +185,7 @@ namespace {
         double totalAmount = 30.8;
         int frequentRenterPoints = 12;
 
-        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints);
+        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints, OUT_FORMAT);
 
         string statement = customer.statement();
 
@@ -200,13 +202,53 @@ namespace {
         double totalAmount = 30.8;
         int frequentRenterPoints = 12;
 
-        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints);
+        string detail = customer.movieDetail(rental.get(), totalAmount, frequentRenterPoints, OUT_FORMAT);
 
         string statement = customer.statement();
 
         EXPECT_EQ(detail, "\tLe jour ou Nathan a tout foire.\t14\n");
         EXPECT_EQ(totalAmount, 44.8);
         EXPECT_EQ(frequentRenterPoints, 14);
+    }
+
+    TEST(FormatMovie, SIMPLE_FORMAT) {
+        Customer customer("Customer");
+
+        string detail = customer.formatMovie("\t{title}\t{price}\n", "Super film", 12.2);
+
+        string statement = customer.statement();
+
+        EXPECT_EQ(detail, "\tSuper film\t12.2\n");
+    }
+
+    TEST(FormatMovie, MISSING_TITLE) {
+        Customer customer("Customer");
+
+        string detail = customer.formatMovie("heheh{}{}}{{price}blabla", "Super film", 12.2);
+
+        string statement = customer.statement();
+
+        EXPECT_EQ(detail, "heheh{}{}}{12.2blabla");
+    }
+
+    TEST(FormatMovie, MISSING_PRICE) {
+        Customer customer("Customer");
+
+        string detail = customer.formatMovie("21323321{title}}}}}}}swqw{}{àe$}", "{film}", 12.2);
+
+        string statement = customer.statement();
+
+        EXPECT_EQ(detail, "21323321{film}}}}}}}swqw{}{àe$}");
+    }
+
+    TEST(FormatMovie, MISSING_ALL) {
+        Customer customer("Customer");
+
+        string detail = customer.formatMovie("pas de film", "Super film", 12.2);
+
+        string statement = customer.statement();
+
+        EXPECT_EQ(detail, "pas de film");
     }
 }
 

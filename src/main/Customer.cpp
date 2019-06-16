@@ -1,6 +1,7 @@
 // Customer.cpp
 #include <sstream>
 #include <vector>
+#include <regex>
 #include "Customer.h"
 
 using std::ostringstream;
@@ -24,7 +25,8 @@ string Customer::statement() {
     result << "AbstractRental Record for " << getName() << "\n";
     for (; iter != iter_end; ++iter) {
         AbstractRental *rental = (*iter).get();
-        result << movieDetail(rental, totalAmount, frequentRenterPoints);
+        result << movieDetail(rental, totalAmount, frequentRenterPoints,
+                              "\t{title}\t{price}\n");
     }
 
     // add footer lines
@@ -34,7 +36,8 @@ string Customer::statement() {
     return result.str();
 }
 
-string Customer::movieDetail(AbstractRental *rental, double &totalAmount, int &frequentRenterPoints) const {
+string Customer::movieDetail(AbstractRental *rental, double &totalAmount,
+        int &frequentRenterPoints, const string &format) const {
 
     ostringstream movieLine;
 
@@ -43,9 +46,16 @@ string Customer::movieDetail(AbstractRental *rental, double &totalAmount, int &f
 
     totalAmount += thisAmount;
 
-    movieLine << "\t" << rental->getMovie()->getTitle() << "\t" << thisAmount << "\n";
+    return formatMovie(format, rental->getMovie()->getTitle(), thisAmount);
+}
 
-    return movieLine.str();
+/**
+ * Format a movie, {title} will be replaced by the film title and {price} by the price
+ */
+string Customer::formatMovie(const string &format, const string& title, double price) const{
+    string formatted = std::regex_replace(format, std::regex("\\{title}"), title);
+    formatted = std::regex_replace(formatted, std::regex("\\{price}"), to_string(price));
+    return formatted;
 }
 
 void Customer::addRental(std::shared_ptr<AbstractRental> arg) {
